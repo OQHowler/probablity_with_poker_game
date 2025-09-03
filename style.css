@@ -1,90 +1,62 @@
-/* ===== General Page Styling ===== */
 body {
   font-family: Arial, sans-serif;
-  text-align: center;
-  background: #1e1e1e;
+  background: #202020;
   color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   margin: 0;
-  padding: 0;
+}
+
+.container {
+  text-align: center;
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  width: 500px;
 }
 
 h1 {
-  margin-top: 20px;
-  color: #ffcc00;
-  text-shadow: 1px 1px 3px black;
+  margin-bottom: 20px;
 }
 
-/* ===== Cards Display ===== */
-#cards {
-  margin: 20px;
-  font-size: 1.8rem;
-  letter-spacing: 2px;
-}
-
-/* ===== Progress & Results ===== */
-#progress {
-  margin: 15px auto;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #00e676;
-}
-
-#result {
-  margin: 20px;
-  font-size: 1.2rem;
-  color: #ff9800;
-}
-
-#finalResults {
-  margin: 25px;
-  padding: 15px;
-  border: 1px solid #555;
-  border-radius: 8px;
-  background: #2c2c2c;
-  text-align: left;
-  display: inline-block;
-}
-
-/* ===== Controls ===== */
-#controls {
-  margin: 20px;
-}
-
-button {
-  margin: 8px;
+.buttons button {
+  margin: 10px;
   padding: 10px 20px;
-  border-radius: 8px;
+  font-size: 16px;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
-  background: #444;
-  color: white;
   transition: background 0.2s;
 }
 
-button:hover:enabled {
-  background: #666;
+#startBtn { background: #4CAF50; color: white; }
+#resetBtn { background: #FF9800; color: white; }
+#exitBtn  { background: #F44336; color: white; }
+
+#startBtn:hover { background: #45a049; }
+#resetBtn:hover { background: #e68900; }
+#exitBtn:hover  { background: #d32f2f; }
+
+#timer {
+  margin: 15px 0;
+  font-size: 18px;
+  color: #FFD700;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+#cards {
+  margin: 20px 0;
+  font-size: 18px;
 }
 
-/* ===== Progress Bar ===== */
-.progress-container {
-  width: 60%;
-  height: 20px;
-  margin: 10px auto;
-  background: #333;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: inset 0 0 5px black;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #00e676, #00c853);
-  transition: width 0.3s ease;
+#probabilities {
+  text-align: left;
+  margin-top: 20px;
+  background: #1a1a1a;
+  padding: 10px;
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
 }
