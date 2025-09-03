@@ -1,84 +1,107 @@
 body {
   font-family: Arial, sans-serif;
-  background: #1c1c1c;
-  color: #f0f0f0;
+  background: #1e1e1e;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px;
   min-height: 100vh;
   margin: 0;
+  padding: 20px;
 }
 
 .container {
-  max-width: 700px;
-  width: 100%;
-  background: #2a2a2a;
+  background: #2b2b2b;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-h1, h2 {
+h1 {
   text-align: center;
-  margin-bottom: 16px;
+  color: #ffcc00;
+}
+
+h2 {
+  margin-top: 20px;
+  text-align: center;
+  color: #fff;
 }
 
 .info-box {
-  background: #333;
-  padding: 12px;
+  background: #3a3a3a;
+  padding: 10px;
   border-radius: 8px;
-  margin-bottom: 10px;
-  font-size: 1.1em;
+  margin: 10px 0;
+  font-size: 18px;
 }
 
-.buttons {
+.button-row {
   display: flex;
   justify-content: center;
-  gap: 10px;
   margin: 15px 0;
+  gap: 10px;
 }
 
 button {
-  padding: 10px 16px;
+  padding: 8px 16px;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
+  border-radius: 6px;
   background: #444;
-  color: #f0f0f0;
-  transition: background 0.2s;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:disabled {
+  background: #222;
+  cursor: not-allowed;
 }
 
 button:hover:enabled {
   background: #666;
 }
 
-button:disabled {
-  background: #222;
-  color: #777;
-  cursor: not-allowed;
-}
-
-.status {
+#status {
   text-align: center;
-  margin: 12px 0;
-  font-style: italic;
-  color: #ffa500;
+  margin: 10px 0;
+  font-weight: bold;
+  color: orange;
 }
 
-.probabilities {
+#probabilities {
+  margin-top: 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px 20px;
-  margin-top: 10px;
+  gap: 12px;
 }
 
-.probabilities p {
-  background: #444;
-  padding: 8px;
-  border-radius: 6px;
-  margin: 0;
-  font-family: monospace;
-  font-size: 0.95em;
+.prob-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #3a3a3a;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.prob-row label {
+  flex: 1;
+}
+
+.prob-row input {
+  width: 70px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  padding: 4px;
+  text-align: right;
+}
+
+.prob-row span {
+  flex: 1;
+  color: #ffcc00;
+  font-size: 14px;
 }
