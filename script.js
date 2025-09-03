@@ -1,133 +1,78 @@
-let worker = null;
-let gameState = {
-    playerCards: [],
-    boardCards: []
-};
-let calcInProgress = false;
+let worker;
+let gameActive = false;
 
-// DOM elements
-const startBtn = document.getElementById("startBtn");
-const nextCardBtn = document.getElementById("nextCardBtn");
-const submitBtn = document.getElementById("submitBtn");
-const resetBtn = document.getElementById("resetBtn");
-const exitBtn = document.getElementById("exitBtn");
-const cardsDiv = document.getElementById("cards");
-const boardDiv = document.getElementById("board");
-const statusDiv = document.getElementById("status");
-const probsDiv = document.getElementById("probabilities");
+document.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("start-btn");
+  const nextBtn = document.getElementById("next-btn");
+  const submitBtn = document.getElementById("submit-btn");
+  const resetBtn = document.getElementById("reset-btn");
+  const exitBtn = document.getElementById("exit-btn");
+  const statusEl = document.getElementById("status");
+  const playerCards = document.getElementById("player-cards");
+  const boardCards = document.getElementById("board-cards");
 
-// Build full deck
-function buildDeck() {
-    const suits = ["♠", "♥", "♦", "♣"];
-    const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
-    let deck = [];
-    for (let s of suits) for (let r of ranks) deck.push(r + s);
-    return deck;
-}
-
-// Shuffle
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-// Start Game
-startBtn.addEventListener("click", () => {
-    resetGame(false);
-
-    let deck = shuffle(buildDeck());
-    gameState.playerCards = deck.splice(0, 2);
-    gameState.boardCards = deck.splice(0, 3);
-
-    cardsDiv.innerHTML = `Your cards: ${gameState.playerCards.join(" ")}`;
-    boardDiv.innerHTML = `Board: ${gameState.boardCards.join(" ")}`;
-
-    statusDiv.innerHTML = "Calculating exact probabilities...";
-    probsDiv.innerHTML = "";
-
-    startWorker();
-
+  startBtn.addEventListener("click", () => {
+    gameActive = true;
     startBtn.disabled = true;
-    nextCardBtn.disabled = false;
+    nextBtn.disabled = false;
     submitBtn.disabled = false;
-});
+    resetBtn.disabled = false;
+    exitBtn.disabled = false;
 
-// Next Card
-nextCardBtn.addEventListener("click", () => {
-    if (gameState.boardCards.length < 5) {
-        let deck = buildDeck().filter(
-            c => !gameState.playerCards.includes(c) && !gameState.boardCards.includes(c)
-        );
-        shuffle(deck);
-        gameState.boardCards.push(deck[0]);
-        boardDiv.innerHTML = `Board: ${gameState.boardCards.join(" ")}`;
-        statusDiv.innerHTML = "Calculating exact probabilities...";
-        startWorker();
-    }
-    if (gameState.boardCards.length === 5) {
-        nextCardBtn.disabled = true;
-    }
-});
+    playerCards.textContent = "Your cards: 9♥ J♥"; // placeholder
+    boardCards.textContent = "Board: Q♥ 5♥ 4♠";  // placeholder
 
-// Submit Guesses
-submitBtn.addEventListener("click", () => {
-    alert("Your guesses submitted! Wait for exact results.");
-});
-
-// Reset Game
-resetBtn.addEventListener("click", () => {
-    resetGame(true);
-});
-
-// Exit Game
-exitBtn.addEventListener("click", () => {
-    resetGame(true);
-    cardsDiv.innerHTML = "Game exited.";
-});
-
-// Reset utility
-function resetGame(fullClear = true) {
-    if (worker) {
-        worker.terminate();
-        worker = null;
-    }
-    gameState = { playerCards: [], boardCards: [] };
-    calcInProgress = false;
-    statusDiv.innerHTML = "";
-    probsDiv.innerHTML = "";
-    if (fullClear) {
-        cardsDiv.innerHTML = "";
-        boardDiv.innerHTML = "";
-    }
-    startBtn.disabled = false;
-    nextCardBtn.disabled = true;
-    submitBtn.disabled = true;
-}
-
-// Start worker
-function startWorker() {
-    if (calcInProgress) return;
-    calcInProgress = true;
+    statusEl.textContent = "Calculating exact probabilities...";
 
     worker = new Worker("worker.js");
-    worker.postMessage({
-        playerCards: gameState.playerCards,
-        boardCards: gameState.boardCards
-    });
+    worker.postMessage({ type: "start" });
 
-    worker.onmessage = (e) => {
-        const { type, data } = e.data;
-        if (type === "probabilities") {
-            statusDiv.innerHTML = "Calculation complete!";
-            probsDiv.innerHTML = Object.entries(data)
-                .map(([hand, prob]) => `<p>${hand}: ${prob.toFixed(4)}</p>`)
-                .join("");
-            worker.terminate();
-            worker = null;
-            calcInProgress = false;
-        }
+    worker.onmessage = function (e) {
+      if (e.data.type === "done") {
+        const probs = e.data.probabilities;
+        statusEl.textContent = "Calculation complete!";
+
+        document.getElementById("actual-pair").textContent = ` | Actual: ${probs.pair.toFixed(4)}`;
+        document.getElementById("actual-two-pair").textContent = ` | Actual: ${probs.twoPair.toFixed(4)}`;
+        document.getElementById("actual-three-kind").textContent = ` | Actual: ${probs.threeKind.toFixed(4)}`;
+        document.getElementById("actual-straight").textContent = ` | Actual: ${probs.straight.toFixed(4)}`;
+        document.getElementById("actual-flush").textContent = ` | Actual: ${probs.flush.toFixed(4)}`;
+        document.getElementById("actual-full-house").textContent = ` | Actual: ${probs.fullHouse.toFixed(4)}`;
+        document.getElementById("actual-four-kind").textContent = ` | Actual: ${probs.fourKind.toFixed(4)}`;
+        document.getElementById("actual-straight-flush").textContent = ` | Actual: ${probs.straightFlush.toFixed(4)}`;
+        document.getElementById("actual-royal-flush").textContent = ` | Actual: ${probs.royalFlush.toFixed(4)}`;
+      }
     };
-}
+  });
+
+  submitBtn.addEventListener("click", () => {
+    if (!gameActive) return;
+    statusEl.textContent = "Your guesses submitted!";
+  });
+
+  resetBtn.addEventListener("click", () => {
+    gameActive = false;
+    statusEl.textContent = "";
+    playerCards.textContent = "";
+    boardCards.textContent = "";
+
+    document.querySelectorAll("#probabilities input").forEach(input => input.value = "");
+    document.querySelectorAll("#probabilities span").forEach(span => span.textContent = "");
+
+    startBtn.disabled = false;
+    nextBtn.disabled = true;
+    submitBtn.disabled = true;
+    resetBtn.disabled = true;
+    exitBtn.disabled = true;
+
+    if (worker) {
+      worker.terminate();
+      worker = null;
+    }
+  });
+
+  exitBtn.addEventListener("click", () => {
+    resetBtn.click(); // Reset everything
+    statusEl.textContent = "Exited the game.";
+  });
+});
