@@ -3,29 +3,29 @@ let timerInterval = null;
 let timeRemaining = 0;
 
 function startGame() {
-    if (worker) worker.terminate(); // cleanup before start
+    if (worker) worker.terminate();
     document.getElementById("cards").innerHTML = "Dealing cards...";
     document.getElementById("probabilities").innerHTML = "";
     document.getElementById("startBtn").disabled = true;
+    document.getElementById("submitBtn").disabled = false;
+    document.getElementById("nextBtn").disabled = false;
 
-    // Setup worker
     worker = new Worker("worker.js");
     worker.onmessage = (event) => {
         const { type, data } = event.data;
         if (type === "probabilities") {
             document.getElementById("probabilities").innerHTML =
                 Object.entries(data).map(([hand, prob]) =>
-                    `<p>${hand}: ${(prob * 100).toFixed(2)}%</p>`
+                    `<p>${hand}: ${prob.toFixed(4)}</p>` // decimals instead of %
                 ).join("");
         }
         if (type === "cards") {
             document.getElementById("cards").innerHTML =
                 "Your Cards: " + data.player.join(" ") + "<br>" +
-                "Community: " + data.community.join(" ");
+                "Board: " + data.community.join(" ");
         }
     };
 
-    // Simulated time ~5 seconds
     timeRemaining = 5;
     document.getElementById("timer").innerHTML =
         `Calculating... ${timeRemaining}s`;
@@ -41,7 +41,6 @@ function startGame() {
         }
     }, 1000);
 
-    // Tell worker to start
     worker.postMessage({ type: "start" });
 }
 
@@ -51,10 +50,16 @@ function resetGame() {
         worker = null;
     }
     clearInterval(timerInterval);
+
     document.getElementById("cards").innerHTML = "";
     document.getElementById("probabilities").innerHTML = "";
     document.getElementById("timer").innerHTML = "";
+
     document.getElementById("startBtn").disabled = false;
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("nextBtn").disabled = true;
+
+    document.querySelectorAll(".guess-input").forEach(input => input.value = "");
 }
 
 function exitGame() {
@@ -63,10 +68,16 @@ function exitGame() {
         worker = null;
     }
     clearInterval(timerInterval);
+
     document.getElementById("cards").innerHTML = "Game exited.";
     document.getElementById("probabilities").innerHTML = "";
     document.getElementById("timer").innerHTML = "";
+
     document.getElementById("startBtn").disabled = false;
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("nextBtn").disabled = true;
+
+    document.querySelectorAll(".guess-input").forEach(input => input.value = "");
 }
 
 document.getElementById("startBtn").addEventListener("click", startGame);
