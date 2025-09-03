@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Poker Probability Trainer</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -9,21 +10,67 @@
   <div class="container">
     <h1>Poker Probability Trainer</h1>
 
-    <div id="cards" class="info-box">Your cards will appear here</div>
-    <div id="board" class="info-box">Board cards will appear here</div>
+    <div id="player-cards" class="info-box"></div>
+    <div id="board-cards" class="info-box"></div>
 
-    <div class="buttons">
-      <button id="startBtn">Start</button>
-      <button id="nextCardBtn" disabled>Next Card</button>
-      <button id="submitBtn" disabled>Submit Guesses</button>
-      <button id="resetBtn">Reset</button>
-      <button id="exitBtn">Exit</button>
+    <div class="button-row">
+      <button id="start-btn">Start</button>
+      <button id="next-btn" disabled>Next Card</button>
+      <button id="submit-btn" disabled>Submit Guesses</button>
+      <button id="reset-btn" disabled>Reset</button>
+      <button id="exit-btn" disabled>Exit</button>
     </div>
 
-    <div id="status" class="status"></div>
+    <p id="status"></p>
 
-    <h2>Probabilities</h2>
-    <div id="probabilities" class="probabilities"></div>
+    <h2>Enter Your Probabilities</h2>
+    <div id="probabilities">
+      <div class="prob-row">
+        <label>Pair:</label>
+        <input type="number" step="0.0001" id="guess-pair">
+        <span id="actual-pair"></span>
+      </div>
+      <div class="prob-row">
+        <label>Two Pair:</label>
+        <input type="number" step="0.0001" id="guess-two-pair">
+        <span id="actual-two-pair"></span>
+      </div>
+      <div class="prob-row">
+        <label>Three of a Kind:</label>
+        <input type="number" step="0.0001" id="guess-three-kind">
+        <span id="actual-three-kind"></span>
+      </div>
+      <div class="prob-row">
+        <label>Straight:</label>
+        <input type="number" step="0.0001" id="guess-straight">
+        <span id="actual-straight"></span>
+      </div>
+      <div class="prob-row">
+        <label>Flush:</label>
+        <input type="number" step="0.0001" id="guess-flush">
+        <span id="actual-flush"></span>
+      </div>
+      <div class="prob-row">
+        <label>Full House:</label>
+        <input type="number" step="0.0001" id="guess-full-house">
+        <span id="actual-full-house"></span>
+      </div>
+      <div class="prob-row">
+        <label>Four of a Kind:</label>
+        <input type="number" step="0.0001" id="guess-four-kind">
+        <span id="actual-four-kind"></span>
+      </div>
+      <div class="prob-row">
+        <label>Straight Flush:</label>
+        <input type="number" step="0.0001" id="guess-straight-flush">
+        <span id="actual-straight-flush"></span>
+      </div>
+      <div class="prob-row">
+        <label>Royal Flush:</label>
+        <input type="number" step="0.0001" id="guess-royal-flush">
+        <span id="actual-royal-flush"></span>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
