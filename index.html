@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Poker Probability Trainer</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,33 +9,21 @@
   <div class="container">
     <h1>Poker Probability Trainer</h1>
 
-    <div id="cards"></div>
-    <div id="timer"></div>
-    <div id="probabilities"></div>
+    <div id="cards" class="info-box">Your cards will appear here</div>
+    <div id="board" class="info-box">Board cards will appear here</div>
 
     <div class="buttons">
       <button id="startBtn">Start</button>
+      <button id="nextCardBtn" disabled>Next Card</button>
+      <button id="submitBtn" disabled>Submit Guesses</button>
       <button id="resetBtn">Reset</button>
       <button id="exitBtn">Exit</button>
     </div>
 
-    <div class="guess-section">
-      <h3>Enter probabilities after Preflop:</h3>
-      <div class="guess-row"><label>Pair:</label><input class="guess-input" type="number"></div>
-      <div class="guess-row"><label>Two Pair:</label><input class="guess-input" type="number"></div>
-      <div class="guess-row"><label>Three of a Kind:</label><input class="guess-input" type="number"></div>
-      <div class="guess-row"><label>Straight:</label><input class="guess-input" type="number"></div>
-      <div class="guess-row"><label>Flush:</label><input class="guess-input" type="number"></div>
-      <div class="guess-row"><label>Full House:</label><input class="guess-input" type="number"></div>
-      <div class="guess-row"><label>Four of a Kind:</label><input class="guess-input" type="number"></div>
-      <div class="guess-row"><label>Straight Flush:</label><input class="guess-input" type="number"></div>
-      <div class="guess-row"><label>Royal Flush:</label><input class="guess-input" type="number"></div>
-    </div>
+    <div id="status" class="status"></div>
 
-    <div class="buttons">
-      <button id="submitBtn" disabled>Submit Guesses</button>
-      <button id="nextBtn" disabled>Next Card</button>
-    </div>
+    <h2>Probabilities</h2>
+    <div id="probabilities" class="probabilities"></div>
   </div>
 
   <script src="script.js"></script>
