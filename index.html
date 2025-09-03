@@ -1,27 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Poker Probability Trainer</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Poker Probability Trainer</h1>
-  
-  <div id="cards"></div>
-  <div id="progress"></div>
-  <div id="result"></div>
+  <div class="container">
+    <h1>Poker Probability Trainer</h1>
 
-  <div id="controls">
-    <button id="start">Start Game</button>
-    <button id="next" disabled>Next Card</button>
-    <button id="submit" disabled>Submit Guesses</button>
-    <button id="reset" disabled>Reset</button>
-    <button id="exit" disabled>Exit</button>
+    <div class="buttons">
+      <button id="startBtn">Start</button>
+      <button id="resetBtn">Reset</button>
+      <button id="exitBtn">Exit</button>
+    </div>
+
+    <div id="timer"></div>
+    <div id="cards"></div>
+    <div id="probabilities"></div>
   </div>
 
-  <div id="guesses"></div>
-  <div id="finalResults"></div>
-  
   <script src="script.js"></script>
 </body>
 </html>
